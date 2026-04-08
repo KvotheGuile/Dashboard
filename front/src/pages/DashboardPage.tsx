@@ -127,7 +127,7 @@ const DashboardPage: React.FC = () => {
             </div>
 
             {/* Filters */}
-            <div className="bg-white border border-gray-200 rounded-lg shadow-sm px-4 py-4">
+            <div className="bg-white border border-gray-200 rounded-lg shadow-sm px-4 py-4 mt-4">
                 <h2 className="text-sm font-semibold text-gray-900 mb-3">Filters</h2>
                 <div className="flex flex-wrap gap-4 items-end">
                     
@@ -215,7 +215,7 @@ const DashboardPage: React.FC = () => {
 
             
             {/* KPI Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
                 <KpiCard label="Total Products"  value={String(totalProducts)} />
                 <KpiCard label="Categories"      value={String(uniqueCategories)} />
                 <KpiCard label="Avg. Price"      value={`$${avgPrice.toFixed(2)}`} />
@@ -223,7 +223,7 @@ const DashboardPage: React.FC = () => {
             </div>
 
             {/*Grid*/}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
 
                 {/* Bar Graph */}
                 <ChartCard title="Products per Category">
