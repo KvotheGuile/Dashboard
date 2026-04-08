@@ -223,42 +223,49 @@ const DashboardPage: React.FC = () => {
             </div>
 
             {/*Grid*/}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-
+            <div className={`grid grid-cols-1 lg:grid-cols-${selectedCategory === "all" ? 2 : 1} gap-4 mt-4`}>
+                
                 {/* Bar Graph */}
-                <ChartCard title="Products per Category">
-                <ResponsiveContainer width="100%" height={280}>
-                    <BarChart data={countByCategory} margin={{ top: 4, right: 16, left: 0, bottom: 48 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-35} textAnchor="end" interval={0} />
-                    <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
-                    <Tooltip />
-                    <Bar dataKey="count" name="Products" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                </ResponsiveContainer>
-                </ChartCard>
+                {selectedCategory === "all" ? (
+                        <ChartCard title="Products per Category">
+                        <ResponsiveContainer width="100%" height={280}>
+                            <BarChart data={countByCategory} margin={{ top: 4, right: 16, left: 0, bottom: 48 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                            <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-35} textAnchor="end" interval={0} />
+                            <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
+                            <Tooltip />
+                            <Bar dataKey="count" name="Products" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                        </ChartCard>
+                    ) : (<></>)
+                }
+
                 
                 {/* Pie Graph */}
-                <ChartCard title="Category Distribution">
-                <ResponsiveContainer width="100%" height={280}>
-                    <PieChart>
-                    <Pie
-                        data={countByCategory}
-                        dataKey="count"
-                        nameKey="name"
-                        cx="50%"
-                        cy="45%"
-                        outerRadius={90}
-                    >
-                        {countByCategory.map((_, i) => (
-                        <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                        ))}
-                    </Pie>
-                    <Tooltip formatter={(value: number | string) => [`${value} products`, "Count"]} />
-                    <Legend wrapperStyle={{ fontSize: 11, paddingTop: 8 }} iconSize={10} />
-                    </PieChart>
-                </ResponsiveContainer>
-                </ChartCard>
+                {selectedCategory === "all" ? (
+                    <ChartCard title="Category Distribution">
+                    <ResponsiveContainer width="100%" height={280}>
+                        <PieChart>
+                        <Pie
+                            data={countByCategory}
+                            dataKey="count"
+                            nameKey="name"
+                            cx="50%"
+                            cy="45%"
+                            outerRadius={90}
+                        >
+                            {countByCategory.map((_, i) => (
+                            <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip formatter={(value: number | string) => [`${value} products`, "Count"]} />
+                        <Legend wrapperStyle={{ fontSize: 11, paddingTop: 8 }} iconSize={10} />
+                        </PieChart>
+                    </ResponsiveContainer>
+                    </ChartCard>
+                    ) : (<></>)
+                }
                 
                 
                 {/* Scatter Graph */}
@@ -292,25 +299,28 @@ const DashboardPage: React.FC = () => {
                 </ChartCard>
                 
                 {/* Line Graph */}
-                <ChartCard title="Avg. Price per Category">
-                <ResponsiveContainer width="100%" height={280}>
-                    <LineChart data={avgPriceByCategory} margin={{ top: 4, right: 16, left: 0, bottom: 48 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-35} textAnchor="end" interval={0} />
-                    <YAxis tick={{ fontSize: 11 }} unit="$" />
-                    <Tooltip formatter={(value: number | string) => [`$${Number(value).toFixed(2)}`, "Avg. Price"]} />
-                    <Line
-                        type="monotone"
-                        dataKey="avgPrice"
-                        name="Avg. Price"
-                        stroke="#3b82f6"
-                        strokeWidth={2}
-                        dot={{ fill: "#3b82f6", r: 4 }}
-                        activeDot={{ r: 6 }}
-                    />
-                    </LineChart>
-                </ResponsiveContainer>
-                </ChartCard>
+                {selectedCategory === "all" ? (
+                    <ChartCard title="Avg. Price per Category">
+                    <ResponsiveContainer width="100%" height={280}>
+                        <LineChart data={avgPriceByCategory} margin={{ top: 4, right: 16, left: 0, bottom: 48 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-35} textAnchor="end" interval={0} />
+                        <YAxis tick={{ fontSize: 11 }} unit="$" />
+                        <Tooltip formatter={(value: number | string) => [`$${Number(value).toFixed(2)}`, "Avg. Price"]} />
+                        <Line
+                            type="monotone"
+                            dataKey="avgPrice"
+                            name="Avg. Price"
+                            stroke="#3b82f6"
+                            strokeWidth={2}
+                            dot={{ fill: "#3b82f6", r: 4 }}
+                            activeDot={{ r: 6 }}
+                        />
+                        </LineChart>
+                    </ResponsiveContainer>
+                    </ChartCard>
+                    ) : (<></>)
+                }
             </div>
 
         </>
