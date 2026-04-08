@@ -10,14 +10,11 @@ const Navbar = () =>
             <NavLink to="/start" end>
               Inicio
             </NavLink>
-            <NavLink to="/" end>
+            <NavLink to="/dashboard" end>
               Dashboard
             </NavLink>
             <NavLink to="/products">
               Productos
-            </NavLink>
-            <NavLink to="/login">
-              Log In
             </NavLink>
           </nav>
     )
