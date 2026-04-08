@@ -39,7 +39,7 @@ const DashboardPage: React.FC = () => {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPriceStr, setMaxPriceStr] = useState("");
     const [minRating, setMinRating] = useState(0);
-    const [maxRatingStr, setMaxRatingStr] = useState("");
+    const [maxRating, setMaxRating] = useState(10);
 
     // load
     useEffect(() => {
@@ -54,7 +54,6 @@ const DashboardPage: React.FC = () => {
     // filter
     const filtered = useMemo(() => {
     const maxPrice = maxPriceStr === "" ? Infinity : Number(maxPriceStr);
-    const maxRating = maxRatingStr === "" ? 10 : Number(maxPriceStr);
     return products.filter(
         (p) =>
         (selectedCategory === "all" || p.category.title === selectedCategory) &&
@@ -63,7 +62,7 @@ const DashboardPage: React.FC = () => {
         p.rating >= minRating &&
         p.rating <= maxRating
     );
-    }, [products, selectedCategory, minPrice, maxPriceStr, minRating, maxRatingStr]);
+    }, [products, selectedCategory, minPrice, maxPriceStr, minRating, maxRating]);
 
     // stats
     const totalProducts   = filtered.length;
@@ -114,7 +113,7 @@ const DashboardPage: React.FC = () => {
         setMinPrice(0);
         setMaxPriceStr("");
         setMinRating(0);
-        setMaxRatingStr("");
+        setMaxRating(10);
     };
 
     return (
@@ -192,11 +191,11 @@ const DashboardPage: React.FC = () => {
                         <label className={labelClass}>Max Rating</label>
                         <input
                         type="number"
-                        min={0}
+                        min={-1}
                         max={10}
                         className={inputClass + " w-28"}
-                        value={maxRatingStr}
-                        onChange={(e) => setMaxRatingStr(e.target.value)}
+                        value={maxRating || ""}
+                        onChange={(e) => setMaxRating(Number(e.target.value) || 0)}
                         placeholder="10"
                         />
                     </div>
