@@ -177,6 +177,19 @@ const DashboardPage: React.FC = () => {
             </div>
 
             
+            {/* KPI Cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <KpiCard label="Total Products"  value={String(totalProducts)} />
+                <KpiCard label="Categories"      value={String(uniqueCategories)} />
+                <KpiCard label="Avg. Price"      value={`$${avgPrice.toFixed(2)}`} />
+                <KpiCard label="Avg. Rating"     value={`${avgRating.toFixed(1)} / 5`} />
+            </div>
+
+            {/*Grid*/}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+            </div>
+
             {/* Bar Graph */}
             <ChartCard title="Products per Category">
             <ResponsiveContainer width="100%" height={280}>
