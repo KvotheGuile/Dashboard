@@ -218,7 +218,7 @@ const DashboardPage: React.FC = () => {
                 <KpiCard label="Total Products"  value={String(totalProducts)} />
                 <KpiCard label="Categories"      value={String(uniqueCategories)} />
                 <KpiCard label="Avg. Price"      value={`$${avgPrice.toFixed(2)}`} />
-                <KpiCard label="Avg. Rating"     value={`${avgRating.toFixed(1)} / 5`} />
+                <KpiCard label="Avg. Rating"     value={`${avgRating.toFixed(1)} / 10`} />
             </div>
 
             {/*Grid*/}
