@@ -39,7 +39,7 @@ const DashboardPage: React.FC = () => {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPriceStr, setMaxPriceStr] = useState("");
     const [minRating, setMinRating] = useState(0);
-    const [maxRating, setMaxRating] = useState(10);
+    const [maxRatingStr, setMaxRatingStr] = useState("");
 
     // load
     useEffect(() => {
@@ -54,6 +54,7 @@ const DashboardPage: React.FC = () => {
     // filter
     const filtered = useMemo(() => {
     const maxPrice = maxPriceStr === "" ? Infinity : Number(maxPriceStr);
+    const maxRating = maxRatingStr === "" ? 10 : Number(maxPriceStr);
     return products.filter(
         (p) =>
         (selectedCategory === "all" || p.category.title === selectedCategory) &&
@@ -62,7 +63,7 @@ const DashboardPage: React.FC = () => {
         p.rating >= minRating &&
         p.rating <= maxRating
     );
-    }, [products, selectedCategory, minPrice, maxPriceStr, minRating, maxRating]);
+    }, [products, selectedCategory, minPrice, maxPriceStr, minRating, maxRatingStr]);
 
     // stats
     const totalProducts   = filtered.length;
@@ -113,7 +114,7 @@ const DashboardPage: React.FC = () => {
         setMinPrice(0);
         setMaxPriceStr("");
         setMinRating(0);
-        setMaxRating(10);
+        setMaxRatingStr("");
     };
 
     return (
@@ -194,8 +195,8 @@ const DashboardPage: React.FC = () => {
                         min={0}
                         max={10}
                         className={inputClass + " w-28"}
-                        value={maxRating || ""}
-                        onChange={(e) => setMaxRating(Number(e.target.value) || 10)}
+                        value={maxRatingStr}
+                        onChange={(e) => setMaxRatingStr(e.target.value)}
                         placeholder="10"
                         />
                     </div>
