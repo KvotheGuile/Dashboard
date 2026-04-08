@@ -9,7 +9,8 @@ import { PresentationChartBarIcon } from "@heroicons/react/24/outline";
 import type { Product } from "my-types";
 import { getAllProducts } from "../api/productapi";
 
-
+const inputClass = "w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20";
+const labelClass = "block text-xs font-medium text-gray-600 mb-1";
 
 const COLORS = [
   "#3b82f6", "#10b981", "#f59e0b", "#ef4444",
@@ -102,8 +103,81 @@ const DashboardPage: React.FC = () => {
         .sort((a, b) => b.avgPrice - a.avgPrice);
     }, [filtered]);
 
+    // filter functions
+    const handleReset = () => {
+        setSelectedCategory("all");
+        setMinPrice(0);
+        setMaxPriceStr("");
+    };
+
     return (
         <>
+        
+            {/* Header */}
+            <div className="border-b border-blue-200 bg-blue-50 px-4 py-3 rounded-lg flex items-center gap-2">
+                <PresentationChartBarIcon className="h-4 w-4 text-blue-700" />
+                <p className="text-sm font-semibold text-blue-900">Dashboard</p>
+            </div>
+
+            {/* Filters */}
+            <div className="bg-white border border-gray-200 rounded-lg shadow-sm px-4 py-4">
+                <h2 className="text-sm font-semibold text-gray-900 mb-3">Filters</h2>
+                <div className="flex flex-wrap gap-4 items-end">
+
+                    <div>
+                        <label className={labelClass}>Category</label>
+                        <select
+                        className={inputClass + " w-44"}
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        >
+                        <option value="all">All categories</option>
+                        {categories.map((cat) => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                        </select>
+                    </div>
+                    
+
+                    <div>
+                        <label className={labelClass}>Min price ($)</label>
+                        <input
+                        type="number"
+                        min={0}
+                        className={inputClass + " w-28"}
+                        value={minPrice || ""}
+                        onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
+                        placeholder="0"
+                        />
+                    </div>
+
+
+                    <div>
+                        <label className={labelClass}>Max price ($)</label>
+                        <input
+                        type="number"
+                        min={0}
+                        className={inputClass + " w-28"}
+                        value={maxPriceStr}
+                        onChange={(e) => setMaxPriceStr(e.target.value)}
+                        placeholder="No limit"
+                        />
+                    </div>
+
+
+
+                    <button
+                        onClick={handleReset}
+                        className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+            </div>
+
+            
+            {/* Bar Graph */}
             <ChartCard title="Products per Category">
             <ResponsiveContainer width="100%" height={280}>
                 <BarChart data={countByCategory} margin={{ top: 4, right: 16, left: 0, bottom: 48 }}>
@@ -115,7 +189,8 @@ const DashboardPage: React.FC = () => {
                 </BarChart>
             </ResponsiveContainer>
             </ChartCard>
-
+            
+            {/* Pie Graph */}
             <ChartCard title="Category Distribution">
             <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
@@ -136,7 +211,9 @@ const DashboardPage: React.FC = () => {
                 </PieChart>
             </ResponsiveContainer>
             </ChartCard>
-
+            
+            
+            {/* Scatter Graph */}
             <ChartCard title="Price vs. Rating">
             <ResponsiveContainer width="100%" height={280}>
                 <ScatterChart margin={{ top: 4, right: 16, left: 0, bottom: 24 }}>
@@ -163,6 +240,27 @@ const DashboardPage: React.FC = () => {
                 />
                 <Scatter data={scatterData} fill="#3b82f6" fillOpacity={0.65} />
                 </ScatterChart>
+            </ResponsiveContainer>
+            </ChartCard>
+            
+            {/* Line Graph */}
+            <ChartCard title="Avg. Price per Category">
+            <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={avgPriceByCategory} margin={{ top: 4, right: 16, left: 0, bottom: 48 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-35} textAnchor="end" interval={0} />
+                <YAxis tick={{ fontSize: 11 }} unit="$" />
+                <Tooltip formatter={(value: number | string) => [`$${Number(value).toFixed(2)}`, "Avg. Price"]} />
+                <Line
+                    type="monotone"
+                    dataKey="avgPrice"
+                    name="Avg. Price"
+                    stroke="#3b82f6"
+                    strokeWidth={2}
+                    dot={{ fill: "#3b82f6", r: 4 }}
+                    activeDot={{ r: 6 }}
+                />
+                </LineChart>
             </ResponsiveContainer>
             </ChartCard>
         </>
